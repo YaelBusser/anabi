@@ -1,0 +1,98 @@
+@font-face {
+    font-family: 'amikobold';
+    src: url('fonts/Amiko-Bold-webfont.eot');
+    src: url('fonts/Amiko-Bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Amiko-Bold-webfont.woff2') format('woff2'),
+         url('fonts/Amiko-Bold-webfont.woff') format('woff'),
+         url('fonts/Amiko-Bold-webfont.ttf') format('truetype'),
+         url('fonts/Amiko-Bold-webfont.svg#amikobold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+h1, p, tr
+{
+    font-family: amikobold;
+}
+body
+{
+    left: 0;
+    top: 0;
+}
+.centre
+{
+    text-align: center;
+}
+.sizeLogo
+{
+    width: 5vw;
+    height: 5vw;
+}
+.floatLeft
+{
+    float: left;
+}
+.txtFloat
+{
+    font-size: 0.45vw;
+}
+.nabi
+{
+    color: #F7941D;
+    font-size: 2.3vw;
+}
+.sizeXP
+{
+    font-size: 0.65vw;
+}
+h1
+{
+    font-family: amikobold;
+}
+.bandeHaut
+{
+    border: 0.2vw solid orange;
+    width: 75%;
+    margin: auto;
+    height: 5vw;
+}
+a
+{
+    text-decoration: none;
+    color: black;
+}
+.sizeMenu
+{
+    font-size: 2vw;
+}
+.marginMenu
+{
+    margin-left: 2vw;
+}
+.flexMenu
+{
+    display: flex;
+}
+.h1Inscription
+{
+    margin-top: 3vw;
+    margin-left: 45%;
+    border: 0.1vw solid black;
+    width: 10.5vw;
+    font-size: 2    vw;
+}
+.td
+{
+    color: black;
+    animation-name: td;
+    animation-iteration-count: infinite;
+    animation-duration: 2.4s;
+}
+@keyframes td
+{
+
+
+    50%{color: grey}
+
+
+}
