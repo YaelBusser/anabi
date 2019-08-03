@@ -22,7 +22,7 @@ session_start();
                 $_SESSION['jeux'] = $user['jeux'];
                 $_SESSION['sexualite'] = $user['sexualite'];
                 $_SESSION['age'] = $user['age'];
-                header('Location: profil.php');
+                header('Location: profil.php?id='.$_SESSION['id'].'');
             }
             else
             {
@@ -46,7 +46,7 @@ session_start();
 <body>
     <?php
 
-        include('menu.html')
+        include('menu.php');
 
     ?>
     <h1 align="center">Connexion</h1>

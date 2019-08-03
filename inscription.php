@@ -1,83 +1,136 @@
 <?php
-    session_start();
+session_start();
     include('bdd.php');
-    if(isset($_POST['edition']))
+    if(isset($_POST['btnInscription']))
     {
-        $requete_pseudo = $bdd -> prepare('SELECT pseudo FROM membres WHERE pseudo = ?');
-        $requete_pseudo -> execute(array($_POST['pseudo']));
-        $pseudo_exist = $requete_pseudo -> rowCount();
-        if($pseudo_exist == 0 || $_POST['pseudo'] == $_SESSION['pseudo'])
+        $pseudo = htmlspecialchars($_POST['pseudo']);
+        $email = htmlspecialchars($_POST['email']);
+        $email2 = htmlspecialchars($_POST['email2']);
+        $mdp = sha1($_POST['mdp']);
+        $mdp2 = sha1($_POST['mdp2']);
+        if(!empty($pseudo) AND !empty($email) AND !empty($email2) AND !empty($mdp) AND !empty($mdp2))
         {
-            $requete_email = $bdd -> prepare('SELECT email FROM membres WHERE email = ?');
-            $requete_email -> execute(array($_POST['email']));
-            $email_exist = $requete_email -> rowCount();
-            if($email_exist == 0 || $_POST['email'] == $_SESSION['email'])
-            {
-                $requete = $bdd -> prepare('UPDATE membres SET pseudo = ?, email = ?, jeux = ?, sexualite = ?, age = ? WHERE id = ?');
-                $requete -> execute(array($_POST['pseudo'], $_POST['email'], $_POST['jeux'], $_POST['sexualite'], $_POST['age'], $_SESSION['id']));
-                $requete_membres = $bdd-> prepare('SELECT * FROM membres WHERE id = ?');
-                $requete_membres -> execute(array($_SESSION['id']));
-                $user = $requete_membres -> fetch();
-                $_SESSION['id'] = $user['id'];
-                $_SESSION['pseudo'] = $user['pseudo'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['jeux'] = $user['jeux'];
-                $_SESSION['sexualite'] = $user['sexualite'];
-                $_SESSION['age'] = $user['age'];
-                header('Location: profil.php');
+            $_SESSION['pseudo_inscription'] = $pseudo;
+            if(strlen($pseudo) <= 16 )
+            {    
+                if($email == $email2)
+                {
+                    $email = filter_var($email, FILTER_VALIDATE_EMAIL);
+                    $requete_email = $bdd -> prepare('SELECT email FROM membres WHERE email = ?');
+                    $requete_email -> execute(array($email));
+                    $email_doublon = $requete_email -> rowCount();
+                    if($email_doublon == 0)
+                    {
+                        if($mdp == $mdp2)
+                        {
+                            $requete_pseudo = $bdd -> prepare('SELECT pseudo FROM membres WHERE pseudo = ? ');
+                            $requete_pseudo -> execute(array($pseudo));
+                            $pseudo_exist = $requete_pseudo -> rowCount();
+                            if($pseudo_exist ==  0)
+                            {
+                                $creation_compte = $bdd -> prepare('INSERT INTO membres(pseudo, email, mdp, jeux, sexualite, age) VALUES(?, ?, ?, ?, ?, ?)');
+                                $creation_compte -> execute(array($pseudo, $email, $mdp, $_POST['jeux'], $_POST['sexualite'], $_POST['age']));
+                                $pseudo = $_COOKIE[$pseudo];
+                                header('Location: creation_compte.php');
+                            }
+                            else
+                            {
+                                $error = "<p style='color: red;'>Le pseudo est déjà pris, dommage :) !</p>";
+                            }
+                        }
+                        else
+                        {
+                            $error = "<p style='color: red;'>Votre mot de passe n'est pas le même !</p>";
+                        }
+                    }
+                    else
+                    {
+                        $error = "<p style='color: red;'>L'email est déjà utilisé mais vous pouvez uniquement vous connecter avec votre pseudo !</p>";
+                    }
+                }
+                else
+                {
+                    $error = "<p style='color: red;'> Votre adresse email ne correspond pas avec celle de confirmation ;) </p>"; 
+                }
             }
             else
             {
-                $error = 'Cette addresse mail est déjà prise !';
+                $error = "<p style='color: red;'> Votre pseudo doit comporter uniquement 16 caractères ! </p>"; 
             }
         }
         else
         {
-            $error = 'Ce pseudo existe déjà !';
+            $error = "<p style='color: red;'>Tous les champs doivent être remplis !</p>";
         }
     }
 ?>
-<!DOCTYPE html>
+<DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="css.css">
-    <title><?php echo $_SESSION['pseudo']; ?></title>
-</head>
+    <head>
+        <title>Anabi || Inscription</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css.css">
+        <link rel="icon" type="icon" href="images/petit.png">
+    </head>
 <body>
     <?php
 
-    include('menuPHP.php');
+        include('menu.php')
 
     ?>
-    <h1 class="centre"><?php echo $_SESSION['pseudo'];?></h1>
-    <form method="POST">
-    <table align="center">
-        <tr>
-            <td>
-                Pseudo:
-            </td>
-            <td>
-                <input type="text" name="pseudo" style='width: 10vw; height:  1.2vw;' value="<?php echo $_SESSION['pseudo']; ?>">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Email:
-            </td>
-            <td>
-            <input type="email" name="email" style='width: 10vw; height:  1.2vw;' value="<?php echo $_SESSION['email']?>">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Style de jeux:
-            </td>
-            <td>
-            <select name="jeux">
-                            <option value="<?php echo $_SESSION['jeux'] ?>"><?php echo $_SESSION['jeux'] ?></option>
+    <h1 class="h1Inscription">Inscription</h1>
+    <div align="center">
+        <form method="POST" name="inscription" action="">
+            <table class="sizeInscription">
+                <tr>
+                    <td>
+                       <label for="pseudo"> Votre Pseudo</label>
+                    </td>
+                    <td>
+                        <input type="text" id="pseudo" name="pseudo" value="<?php if(isset($pseudo)){echo $pseudo;} ?>" placeholder="Votre pseudo" style='width: 10vw; heigth: 10vw; height:  1.5vw;'>
+                    </td>
+                </tr> 
+                <tr>
+                <td>
+                   <label for="email"> Votre Email</label>
+                </td>
+                    <td>
+                        <input type="email" id="email" name="email" value="<?php if(isset($email)){echo $email;} ?>" placeholder="Votre email" style='width: 10vw; heigth: 10vw; height:  1.5vw;'>
+                    </td>
+                </tr>
+                    <tr>
+                    <td>
+                        <label for="email2">Confirmez votre Email</label>
+                </td>
+                    <td>
+                        <input type="email" id="email2" name="email2" value="<?php if(isset($email2)){echo $email2;} ?>" placeholder="Confirmez votre email" style='width: 10vw; heigth: 10vw; height:  1.5vw;'>
+                    </td>
+                </tr>
+              
+                <tr>
+                <td>
+                   <label for="mdp"> Votre Mot de Passe</label>
+                </td>
+                    <td>
+                        <input type="password" id="mdp" name="mdp" placeholder="Votre Mot de Passe" style='width: 10vw; heigth: 10vw; height:  1.5vw;'>
+                    </td>
+                </tr>
+                    <tr>
+                    <td>
+                   <label for="mdp2"> Confirmez votre mot de passe</label>
+                </td>
+                    <td>
+                        <input type="password" id="mdp2" name="mdp2" placeholder="Confirmez votre Mot de Passe" style='width: 10vw; heigth: 10vw; height:  1.5vw;'>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       <label for="jeux"> Vos types de jeux : </label>
+                    </td>
+                    <td>
+                        <select name="jeux" id="jeux">
                             <option value="Action/Aventure">Action/Aventure</option>
-                            <option value="FPS/Jeux de tirs">FPS/Jeux de tirs</option>
+                            <option value="FPS">FPS/Jeux de tirs</option>
                             <option value="Sports">Sports</option>
                             <option value="RPG/Aventure">RPG/Aventure</option>
                             <option value="Course">Course</option>
@@ -86,38 +139,25 @@
                             <option value="Simulation">Simulation</option>
                             <option value="Plateforme">Plateforme</option>
                         </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Sexe :
-            </td>
-            <td>
-                        <select name="sexualite">
-                            <option value="<?php echo $_SESSION['sexualite']; ?>"><?php echo $_SESSION['sexualite'] ?></option>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                       <label for="sex"> Votre sexe :</label>
+                    </td>
+                    <td>
+                        <select name="sexualite" id="sex">
                             <option value="Homme">Homme</option>
-                            <option value="Femme">Femme</option>
+                            <option value="Homosexuel">Femme</option>
                         </select>
                     </td>
-        </tr>
-        <tr>
-            <td>
-                Age :
-            </td>
-            <?php 
-                if($_SESSION['age'] == 1 )
-                { 
-                    $ageAn = 'an';
-                } 
-                else 
-                {
-                    $ageAn = 'ans';
-                }
-
-            ?>
-            <td>
+                </tr>
+                <tr>
+                    <td>
+                       <label for="age"> Votre âge :</label>
+                    </td>
+                    <td>
                         <select name="age" id="age">
-                            <option value="<?php echo $_SESSION['age']; ?>"><?php echo $_SESSION['age']; ?> <?php echo $ageAn ?></option>
                             <option value="1">1 an</option>
                             <option value="2">2 ans</option>
                             <option value="3">3 ans</option>
@@ -219,18 +259,25 @@
                             <option value="99">99 ans</option>
                         </select>
                     </td>
-        </tr>
-        <td></td>
-        <td align="center"><br>
-            <input type="submit" name="edition" value="Modifier">
-        </td>
-        <tr>
-                <td></td>
-                <td>
-                    <p style="color: red;"><?php if(isset($error)){ echo $error; } ?></p>
-                </td>
-        </tr>
-    </table>
-</form>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="center"><br>
+                        <input type="submit" value="Confirmer l'inscription" name="btnInscription">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div align="center">
+        <?php 
+                        
+         if(isset($error)) 
+         { 
+           echo $error;
+         } 
+                        
+        ?>
+        </div>
+    </div>
 </body>
 </html>

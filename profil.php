@@ -21,7 +21,7 @@
         $ageAn = 'ans';
     }
 
-    if(isset($_SESSION['id']))
+    if(isset($_SESSION['id']) && $_GET['id'] == $_SESSION['id'])
     {
 ?>
 <!DOCTYPE html>
@@ -101,7 +101,7 @@
 }
 else
 {
-    echo '<h1> AHAHA ! Petit malin, connecte toi d\'abord ;)</h1>';
+    echo '<h1 style="color: red;"> Erreur dans l\'url !</h1>';
 }
 ?>
 </body>

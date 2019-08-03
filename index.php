@@ -1,9 +1,3 @@
-<?php
-include('bdd.php');
-session_start();
-        if($_GET['id'] == $_SESSION['id'])
-        {
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,12 +7,11 @@ session_start();
         <link rel="icon" type="icon" href="images/petit.png">
     </head>
 <body>
-    
-    <?php
-        include('menuPHP.php');
-    ?>
-    <?php
-        }
-    ?>
+        <?php
+
+                include('menu.php');
+
+        ?>
+
 </body>
 </html>

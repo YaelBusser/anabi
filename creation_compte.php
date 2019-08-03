@@ -12,7 +12,7 @@
 <body>
 <?php
 
-    include('menu.html');
+    include('menu.php');
     echo '<p style="color: green; text-align: center;"> Félicitations '.$_SESSION['pseudo_inscription'].', votre compte a été créé avec succès !</p>'
 
 

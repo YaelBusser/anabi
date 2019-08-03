@@ -54,7 +54,6 @@ h1
     border: 0.2vw solid orange;
     width: 75%;
     margin: auto;
-    height: 5vw;
 }
 a
 {
@@ -95,4 +94,26 @@ a
     50%{color: grey}
 
 
+}
+
+nav li
+{
+    list-style-type: none;
+}
+.submenu
+{
+    display: none;
+}
+.menu
+{
+    list-style-type: none;
+}
+.flex
+{
+    display: flex;
+}
+.bloc
+{
+    width: 20vw;
+    background-color: #F7941D;
 }
