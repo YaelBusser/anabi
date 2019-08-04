@@ -24,7 +24,7 @@
                 $_SESSION['jeux'] = $user['jeux'];
                 $_SESSION['sexualite'] = $user['sexualite'];
                 $_SESSION['age'] = $user['age'];
-                header('Location: profil.php');
+                header('Location: profil.php?id='.$_SESSION['id'].'');
             }
             else
             {

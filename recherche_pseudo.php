@@ -14,6 +14,7 @@
                 <?php
                 if(isset($_GET['btnSearch']))
                 {
+                    $_GET['pseudo'] = htmlspecialchars($_GET['pseudo']);
                     if(!empty($_GET['pseudo']))
                     {
                     $requete_search = $bdd -> prepare('SELECT * FROM membres WHERE pseudo LIKE ? ORDER BY id ');

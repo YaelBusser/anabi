@@ -117,3 +117,7 @@ nav li
     width: 20vw;
     background-color: #F7941D;
 }
+ul 
+{
+    list-style-type: none;
+}

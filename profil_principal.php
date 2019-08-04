@@ -22,8 +22,8 @@
     {
         if(isset($_POST['demande_amis']))
         {
-                        $requete_amis = $bdd -> prepare('INSERT INTO demande_amis(pseudo1, pseudo2, demande) VALUES(?, ?, ?) ');
-                        $requete_amis -> execute(array($_SESSION['pseudo'], $_GET['pseudo'], 1));
+            $requete_amis = $bdd -> prepare('INSERT INTO demande_amis(pseudo1, pseudo2, demande) VALUES(?, ?, ?) ');
+            $requete_amis -> execute(array($_SESSION['pseudo'], $_GET['pseudo'], 1));
         }
     }
     $requete_id = $bdd -> prepare('SELECT * FROM demande_amis WHERE pseudo1 = ? AND pseudo2 = ?');
@@ -41,6 +41,14 @@
             $delete_amis = $bdd -> prepare('UPDATE demande_amis SET demande = ? WHERE id = ?');
             $delete_amis -> execute(array(0, $q_id['id']));
         }
+    }
+    if(isset($_POST['demande_amis']))
+    {
+        $error = '<p style="color: green;">Vous avez envoyer une demande à <i>'.$_GET['pseudo'].'</i></p>';
+    }
+    if(isset($_POST['enlever_amis']))
+    {
+        $error = '<p style="color: red;">Vous avez retirer <i>'.$_GET['pseudo'].'</i> de votre liste d\'amis .</p>';
     }
     if($_GET['id'] == $_SESSION['id_recherche'] && 
     $_GET['pseudo'] == $_SESSION['pseudo_recherche'] &&
@@ -109,14 +117,7 @@
         <tr>
             <td></td>
             <td>
-            <?php if(isset($_POST['demande_amis']))
-            {    
-            ?>
-                <input type="submit" name="enlever_amis" value="Retirer des amis"></td>
-            <?php
-            }
-            ?>
-            
+                <input type="submit" name="enlever_amis" value="Retirer des amis"></td> 
         </tr>
         <tr>
             <td></td>
