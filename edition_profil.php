@@ -13,6 +13,9 @@
             $email_exist = $requete_email -> rowCount();
             if($email_exist == 0 || $_POST['email'] == $_SESSION['email'])
             {
+                $rq = $bdd -> prepare('UPDATE demande_amis SET pseudo1 = ?');
+                $rq -> execute(array($_POST['pseudo']));
+
                 $requete = $bdd -> prepare('UPDATE membres SET pseudo = ?, email = ?, jeux = ?, sexualite = ?, age = ? WHERE id = ?');
                 $requete -> execute(array($_POST['pseudo'], $_POST['email'], $_POST['jeux'], $_POST['sexualite'], $_POST['age'], $_SESSION['id']));
                 $requete_membres = $bdd-> prepare('SELECT * FROM membres WHERE id = ?');
@@ -45,11 +48,34 @@
     <title><?php echo $_SESSION['pseudo']; ?></title>
 </head>
 <body>
-    <?php
+<nav>
+        <div class="bandeHaut">
+            <span class="floatLeft">
+                <a href="accueil.php?id=<?php echo $_SESSION['id']; ?>"><img src="images/logo.png" class="sizeLogo"></a>
+            </span>
+            <div class="flexMenu">
 
-    include('menuPHP.php');
+            <a href="accueil.php?id=<?php echo $_SESSION['id']; ?>"><h1 class="txtFloat"><i>A unique <br> gaming social <br> <span class="sizeXP">experience</span></i> <br><span class="nabi">nabi</span></h1></a>
+                    
+                <div class="menu flexMenu">
 
-    ?>
+                    
+                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="accueil.php?id=<?php echo $_SESSION['id']; ?>">Accueil</a></h1>
+                  
+                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="profil.php?id=<?php echo $_SESSION['id']; ?>">Mon Profil</a></h1>
+                    
+                    <div class="sizeMenu marginMenu">
+                        <?php include('search.php'); ?>
+                    </div>
+                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="amis.php?id=<?php echo $_SESSION['id']; ?>&pseudo=<?php echo $_SESSION['pseudo']; ?>">Mes amis</a></h1>
+                  
+                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="deconnexion.php">Se déconnecter</a></h1>
+                   </div>
+              
+            </div>
+        </div>
+    </div>
+    </nav>
     <h1 class="centre"><?php echo $_SESSION['pseudo'];?></h1>
     <form method="POST">
     <table align="center">

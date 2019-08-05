@@ -68,16 +68,19 @@
                     </td>
                 </tr>
             </table>
-            <br><br><br><br>
+            <br><br><br>
             <h1 align="center"><?php echo $_GET['pseudo2']; ?></h1>
+            <table align="center">
+            <tr>
+            <td>
             <div
              style=" 
-                background-color: red;
-                width: 25vw;
-                height: 15vw;
+                background-color: grey;
+                width: 31vw;
+                height: 20vw;
                 margin: auto;
                 font-size: 1vw;
-                border: 0.2vw solid black;
+                border-radius: 1vw 0 0 1vw;
                 overflow: scroll;
                 overflow-x: hidden;
              " id="scroll"
@@ -85,7 +88,7 @@
                 <div id="message">
                     <?php
                         $requete = $bdd -> prepare('SELECT * FROM chat WHERE pseudo1 = ? AND pseudo2 = ? OR pseudo1 = ? AND pseudo2 = ? ORDER BY id DESC LIMIT 0, 10');
-                        $requete -> execute(array($_GET['pseudo1'], $_GET['pseudo2'], $_GET['pseudo2'], $_GET['pseudo1']));
+                        $requete -> execute(array($_SESSION['pseudo'], $_GET['pseudo2'], $_GET['pseudo2'], $_SESSION['pseudo1']));
                         $requete = $requete -> fetchAll();
                         $_SESSION['pseudo1Get'] = $_GET['pseudo1'];
                         $_SESSION['pseudo2Get'] = $_GET['pseudo2'];
@@ -94,24 +97,42 @@
                         {
                             if($chat['pseudo1'] == $_SESSION['pseudo'])
                             {
-                                $margin = 'margin-left: 17vw;';
+                                $margin = 'margin-left: 18vw;';
                             }
                             else
                             {
-                                $margin = 'margin-left: 0;';
-                            }
-                            echo '<p style="'.$margin.'">'.$chat['msg'].'</p>';
+                                $margin = 'margin-left: 0.45vw;';
+                            }   
+                            echo '<p style="'.$margin.'
+                            background-color: #4d4d4d;
+                            width: 16vw;
+                            color: white;
+                            font-size: 1vw;
+                            padding-left: 0.5vw;
+                            padding-top: 0.5vw;
+                            border-radius: 0.5vw 0.5vw 0.5vw 0.5vw;
+                            ">'.htmlspecialchars($chat['msg']).'</p>';
                         }
                     ?>
+                    </td>
+                    <td></td>
+                    </div>
                 </div>
+                <tr>
+                <td>
                         <form method="POST">
                                 <textarea type="text" name="msg" class="chat" placeholder="Envoyer un message"
-                                style="width: 20vw;"
+                                style="width: 30vw;"
                                 
                                 ></textarea>
+                                </td>
+                                <td>
                                 <input type="submit" name="btnEnvoyer" value="Envoyer">
                         </form>
-            </div>
+                    </td>
+                    </tr>
+                    </table>
+            
     </body>
     <script type="text/javascript">
         setInterval('chargement_message()', 500);

@@ -105,7 +105,7 @@
                 Age :
             </td>
             <td>
-                 <?php echo $_GET['age']; ?> <?php echo $ageAn ?>
+                 <?php echo $_GET['age']; ?> <?php echo $ageAn; ?>
             </td>
         </tr>
         <form method="POST" action="">

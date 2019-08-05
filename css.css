@@ -51,7 +51,7 @@ h1
 }
 .bandeHaut
 {
-    border: 0.2vw solid orange;
+    border: 0.2vw solid rgba(105, 75, 139, 1);
     width: 75%;
     margin: auto;
 }
@@ -120,4 +120,18 @@ nav li
 ul 
 {
     list-style-type: none;
+}
+::-webkit-scrollbar 
+{
+    width: 0.8vw;
+}
+::-webkit-scrollbar-thumb
+{
+    border-radius: 0.5vw 0.5vw 0.5vw 0.5vw;
+    background-color: rgba(105, 75, 139, 1);
+}
+::-webkit-scrollbar-track
+{
+    background-color: rgba(105, 75, 139, 0.5);
+    border-radius: 0.5vw 0.5vw 0.5vw 0.5vw;
 }

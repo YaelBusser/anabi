@@ -1,3 +1,7 @@
+     <?php
+
+
+    ?>
      <head>
      <meta charset="UTF-8">
         <link rel="stylesheet" type="text/css" href="css.css">
@@ -22,7 +26,7 @@
                     <div class="sizeMenu marginMenu">
                         <?php include('search.php'); ?>
                     </div>
-                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="amis.php?id=<?php echo $_SESSION['id']; ?>">Mes amis</a></h1>
+                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="amis.php?id=<?php echo $_SESSION['id']; ?>&pseudo=<?php echo $_SESSION['pseudo']; ?>">Mes amis</a></h1>
                   
                         <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="deconnexion.php">Se déconnecter</a></h1>
                    </div>
