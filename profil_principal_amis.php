@@ -22,6 +22,7 @@
 <html>
     <head>
         <title>Profil de <?php echo $_GET['pseudo2']; ?></title>
+        <?php include('head.php');?>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     </head>
     <body>
@@ -74,6 +75,7 @@
             <tr>
             <td>
             <div
+            id="scroll"
              style=" 
                 background-color: grey;
                 width: 31vw;
@@ -83,12 +85,12 @@
                 border-radius: 1vw 0 0 1vw;
                 overflow: scroll;
                 overflow-x: hidden;
-             " id="scroll"
+             "
             >
                 <div id="message">
                     <?php
                         $requete = $bdd -> prepare('SELECT * FROM chat WHERE pseudo1 = ? AND pseudo2 = ? OR pseudo1 = ? AND pseudo2 = ? ORDER BY id DESC LIMIT 0, 10');
-                        $requete -> execute(array($_SESSION['pseudo'], $_GET['pseudo2'], $_GET['pseudo2'], $_SESSION['pseudo1']));
+                        $requete -> execute(array($_SESSION['pseudo'], $_GET['pseudo2'], $_GET['pseudo2'], $_SESSION['pseudo']));
                         $requete = $requete -> fetchAll();
                         $_SESSION['pseudo1Get'] = $_GET['pseudo1'];
                         $_SESSION['pseudo2Get'] = $_GET['pseudo2'];
@@ -120,7 +122,7 @@
                 </div>
                 <tr>
                 <td>
-                        <form method="POST">
+                        <form method="POST" name="chat">
                                 <textarea type="text" name="msg" class="chat" placeholder="Envoyer un message"
                                 style="width: 30vw;"
                                 
@@ -143,9 +145,7 @@
         
         }
 		document.chat.msg.focus();
+        element = document.getElementById('scroll');
+		element.scrollTop = element.scrollHeight;
 </script>
-<script type="text/javascript">
-				element = document.getElementById('scroll');
-				element.scrollTop = element.scrollHeight;
-</script> 
 </html>

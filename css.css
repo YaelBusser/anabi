@@ -38,7 +38,7 @@ body
 }
 .nabi
 {
-    color: #F7941D;
+    color: #9b59d9;
     font-size: 2.3vw;
 }
 .sizeXP
@@ -52,6 +52,7 @@ h1
 .bandeHaut
 {
     border: 0.2vw solid rgba(105, 75, 139, 1);
+    border-radius: 1vw 1vw 1vw 1vw;
     width: 75%;
     margin: auto;
 }

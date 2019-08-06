@@ -4,8 +4,9 @@
 ?>
 <!DOCTYPE html>
 <html>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css.css">
+<head>
+    <?php include('head.php');?>
+</head>
     <body>
         <?php include('menuPHP.php') ?>
             <h1 class="centre" style="text-decoration: underline;">Recherche de pseudo :</h1>
@@ -28,12 +29,15 @@
                                     foreach($requete_search as $pseudo)
                                     {
                                         echo '<tr><td><p><a href="profil_principal.php?id='.$pseudo['id'].'&pseudo='.$pseudo['pseudo'].'&email='.$pseudo['email'].'&jeux='.$pseudo['jeux'].'&sexe='.$pseudo['sexualite'].'&age='.$pseudo['age'].'">-'.$pseudo['pseudo'].'</a></p></td></tr></li>';
-                                        $_SESSION['id_recherche'] = $pseudo['id'];
-                                        $_SESSION['pseudo_recherche'] = $pseudo['pseudo'];
-                                        $_SESSION['email_recherche'] = $pseudo['email'];
-                                        $_SESSION['jeux_recherche'] = $pseudo['jeux'];
-                                        $_SESSION['sexe_recherche'] = $pseudo['sexualite'];
-                                        $_SESSION['age_recherche'] = $pseudo['age'];
+                                       $q_pseudo = $bdd -> prepare('SELECT * FROM membres WHERE pseudo');
+                                       $q_pseudo -> execute(array($_GET['pseudo']));
+                                       $q_peudoo = $q_pseudo -> fetch();
+                                        $_SESSION['id_recherche'] = $q_peudoo['id'];
+                                        $_SESSION['pseudo_recherche'] = $q_peudoo['pseudo'];
+                                        $_SESSION['email_recherche'] = $q_peudoo['email'];
+                                        $_SESSION['jeux_recherche'] = $q_peudoo['jeux'];
+                                        $_SESSION['sexe_recherche'] = $q_peudoo['sexualite'];
+                                        $_SESSION['age_recherche'] = $q_peudoo['age'];
                                     }
 
                                 ?>

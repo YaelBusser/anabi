@@ -39,9 +39,7 @@ session_start();
 <html>
     <head>
         <title>Anabi || Connexion</title>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="css.css">
-        <link rel="icon" type="icon" href="images/petit.png">
+        <?php include('head.php');?>
     </head>
 <body>
     <?php

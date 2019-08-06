@@ -50,20 +50,11 @@
     {
         $error = '<p style="color: red;">Vous avez retirer <i>'.$_GET['pseudo'].'</i> de votre liste d\'amis .</p>';
     }
-    if($_GET['id'] == $_SESSION['id_recherche'] && 
-    $_GET['pseudo'] == $_SESSION['pseudo_recherche'] &&
-     $_GET['email'] == $_SESSION['email_recherche'] && 
-     $_GET['jeux'] == $_SESSION['jeux_recherche'] && 
-     $_GET['sexe'] == $_SESSION['sexe_recherche'] && 
-     $_GET['age'] == $_SESSION['age_recherche'])
-    {
 ?>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="css.css">
-        <link rel="icon" type="icon" href="images/petit.png">
+        <?php include('head.php');?>
     </head>
     <body>
     <h1 class="centre"><?php echo 'Profil de '.$_GET['pseudo'].'';?></h1>
@@ -117,19 +108,12 @@
         <tr>
             <td></td>
             <td>
-                <input type="submit" name="enlever_amis" value="Retirer des amis"></td> 
+                <input type="submit" name="enlever_amis" value="Ne plus demander en amis"></td> 
         </tr>
         <tr>
             <td></td>
             <td><?php if(isset($error)){ echo $error; } ?></td>
         </tr>
     </form>
-    <?php
-    }
-    else
-    {
-        echo '<h1 align="center" style="color: red;">Erreur dans l\'url, valeurs de variables modifiées !</h1>';
-    }
-    ?>
     </body>
 </html>

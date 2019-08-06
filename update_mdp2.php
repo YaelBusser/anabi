@@ -27,8 +27,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="css.css">
+    <?php include('head.php');?>
     <title><?php echo $_SESSION['pseudo']; ?></title>
 </head>
 <body>
