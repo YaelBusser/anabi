@@ -16,8 +16,9 @@
                 $rq = $bdd -> prepare('UPDATE demande_amis SET pseudo1 = ?');
                 $rq -> execute(array($_POST['pseudo']));
 
-                $requete = $bdd -> prepare('UPDATE membres SET pseudo = ?, email = ?, jeux = ?, sexualite = ?, age = ? WHERE id = ?');
-                $requete -> execute(array($_POST['pseudo'], $_POST['email'], $_POST['jeux'], $_POST['sexualite'], $_POST['age'], $_SESSION['id']));
+                $requete = $bdd -> prepare('UPDATE membres SET pseudo = ?, email = ?, jeux = ?, bio = ? WHERE id = ?');
+                $requete -> execute(array($_POST['pseudo'], $_POST['email'], $_POST['jeux'], $_POST['bio'], $_SESSION['id']));
+                
                 $requete_membres = $bdd-> prepare('SELECT * FROM membres WHERE id = ?');
                 $requete_membres -> execute(array($_SESSION['id']));
                 $user = $requete_membres -> fetch();
@@ -45,218 +46,231 @@
 <head>
     <meta charset="UTF-8">
     <?php include('head.php');?>
-    <title><?php echo $_SESSION['pseudo']; ?></title>
+    <title>🎮Anabi • <?php echo $_SESSION['pseudo']; ?>🎮</title>
 </head>
 <body>
-<nav>
-        <div class="bandeHaut">
-            <span class="floatLeft">
-                <a href="accueil.php?id=<?php echo $_SESSION['id']; ?>"><img src="images/logo.png" class="sizeLogo"></a>
-            </span>
-            <div class="flexMenu">
-
-            <a href="accueil.php?id=<?php echo $_SESSION['id']; ?>"><h1 class="txtFloat"><i>A unique <br> gaming social <br> <span class="sizeXP">experience</span></i> <br><span class="nabi">nabi</span></h1></a>
-                    
-                <div class="menu flexMenu">
-
-                    
-                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="accueil.php?id=<?php echo $_SESSION['id']; ?>">Accueil</a></h1>
-                  
-                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="profil.php?id=<?php echo $_SESSION['id']; ?>">Mon Profil</a></h1>
-                    
-                    <div class="sizeMenu marginMenu">
-                        <?php include('search.php'); ?>
-                    </div>
-                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="amis.php?id=<?php echo $_SESSION['id']; ?>&pseudo=<?php echo $_SESSION['pseudo']; ?>">Mes amis</a></h1>
-                  
-                        <h1 class="sizeMenu marginMenu" style="font-size: 1vw;"><a href="deconnexion.php">Se déconnecter</a></h1>
-                   </div>
-              
-            </div>
-        </div>
+    <?php 
+        include('menuPHP.php');
+    ?>
+    <div style="
+    display: flex;
+    margin-left: 30%;
+    ">
+    <div style="
+    width: 20%;
+    margin-top: 5%;
+    background-color: rgba(0,0,0,0.5);
+    ">
+        <style>
+        #mdp:hover
+        {
+            border-left: 2.3px solid rgba(0,0,0,0.1);
+        }
+        #pp:hover
+        {
+            border-left: 2.3px solid rgba(0,0,0,0.1);
+        }
+        </style>
+        <h1 style="font-size: 1vw; margin-top: -0.05vw; border-left: 2.3px solid black; padding: 1vw; margin-left: -0.05vw;"><a href="edition_profil.php"><span style="color: white;">Modifier le Profil</span></a></h1>
+        <h1 id="mdp" style="
+        color: white; 
+        font-size: 0.8vw; 
+        margin-top: -0.65vw; 
+        margin-left: -0.05vw;
+        padding: 1vw; 
+        "><a href="update_mdp.php"><span style="color: white;">Changer de mot de passe</span></a></h1>
+        <h1 id="pp" style="
+        color: white; 
+        font-size: 0.8vw; 
+        margin-top: -0.65vw; 
+        margin-left: -0.05vw;
+        padding: 1vw; 
+        "><a href="modif_avatar.php"><span style="color: white;">Changer de photo de profil</span></a></h1>
+        <h1 id="pp" style="
+        color: white; 
+        font-size: 0.8vw; 
+        margin-top: -0.65vw; 
+        margin-left: -0.05vw;
+        padding: 1vw; 
+        "><a href="modif_theme.php"><span style="color: white;">Changer de thème</span></a></h1>
+        <h1 id="pc" style="
+        color: white; 
+        font-size: 0.8vw; 
+        margin-top: -0.65vw; 
+        margin-left: -0.05vw;
+        padding: 1vw; 
+        "><a href="modif_miniature.php"><span style="color: white;">Changer de Photo de couverture</span></a></h1>
     </div>
-    </nav>
-    <h1 class="centre"><?php echo $_SESSION['pseudo'];?></h1>
-    <form method="POST">
-    <table align="center">
-        <tr>
-            <td>
-                Pseudo:
-            </td>
-            <td>
-                <input type="text" name="pseudo" style='width: 10vw; height:  1.2vw;' value="<?php echo $_SESSION['pseudo']; ?>">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Email:
-            </td>
-            <td>
-            <input type="email" name="email" style='width: 10vw; height:  1.2vw;' value="<?php echo $_SESSION['email']?>">
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Style de jeux:
-            </td>
-            <td>
-            <select name="jeux">
-                            <option value="<?php echo $_SESSION['jeux'] ?>"><?php echo $_SESSION['jeux'] ?></option>
-                            <option value="Action/Aventure">Action/Aventure</option>
-                            <option value="FPS/Jeux de tirs">FPS/Jeux de tirs</option>
-                            <option value="Sports">Sports</option>
-                            <option value="RPG/Aventure">RPG/Aventure</option>
-                            <option value="Course">Course</option>
-                            <option value="Gestion">Gestion</option>
-                            <option value="Combat">Combat</option>
-                            <option value="Simulation">Simulation</option>
-                            <option value="Plateforme">Plateforme</option>
-                        </select>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Sexe :
-            </td>
-            <td>
-                        <select name="sexualite">
-                            <option value="<?php echo $_SESSION['sexualite']; ?>"><?php echo $_SESSION['sexualite'] ?></option>
-                            <option value="Homme">Homme</option>
-                            <option value="Femme">Femme</option>
-                        </select>
-                    </td>
-        </tr>
-        <tr>
-            <td>
-                Age :
-            </td>
-            <?php 
-                if($_SESSION['age'] == 1 )
-                { 
-                    $ageAn = 'an';
-                } 
-                else 
-                {
-                    $ageAn = 'ans';
-                }
+    <div style="
+    width: 35%;
+    margin-top: 5%;
+    border: 1px solid rgba(0,0,0,0.1);
+    background-color: rgba(0,0,0,0.5);
+    ">
+        <form method="POST">
+                        <table align="center">
+                            <tr>
+                                <td><img src="<?php echo $_avatar; ?>" style="
+                                width: 2vw; 
+                                height: 2vw; 
+                                border-radius: 50%; 
+                                " align="right"></td>
+                                <td style="
+                                color: white;
+                                font-size: 1.3vw;
+                                "><span style="margin-left: 1vw;"><?php echo $_SESSION['pseudo']; ?></span></td>
+                            </tr>
+                            <tr>
+                                <td style="color: white; font-size: 0.8vw;" align="right">
+                                    Nom d'utilisateur
+                                </td>
+                                <td>
+                                    <input type="text" name="pseudo" style='
+                                    width: 10vw; 
+                                    height: 1.2vw; 
+                                    margin-left: 15%;
+                                    font-size: 0.8vw;
+                                    color: white;
+                                    background-color: rgba(0,0,0,0);
+                                    border: 1px solid rgba( 0, 0, 0, 0);
+                                    ' value="<?php echo $_SESSION['pseudo']; ?>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color: white; font-size: 0.8vw;" align="right">
+                                    Adresse E-mail
+                                </td>
+                                <td>
+                                <input type="email" name="email" style='
+                                width: 10vw; 
+                                height: 1.2vw; 
+                                margin-left: 15%;
+                                font-size: 0.8vw;
+                                color: white;
+                                background-color: rgba(0,0,0,0);
+                                border: 1px solid rgba( 0, 0, 0, 0);
+                                ' value="<?php echo $_SESSION['email']?>">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color: white; font-size: 0.8vw;" align="right">
+                                    Style de jeux
+                                </td>
+                                <td>
+                                <select name="jeux" style="
+                                margin-left: 15%;
+                                font-size: 0.8vw;
+                                color: white;
+                                background-color: rgba(0,0,0,0);
+                                border: 1px solid rgba( 0, 0, 0, 0);
+                                -webkit-appearance: none;
+                                ">
+                                                <option value="<?php echo $_SESSION['jeux'] ?>"><?php echo $_SESSION['jeux'] ?></option>
+                                                <option value="Action/Aventure">Action/Aventure</option>
+                                                <option value="FPS/Jeux de tirs">FPS/Jeux de tirs</option>
+                                                <option value="Sports">Sports</option>
+                                                <option value="RPG/Aventure">RPG/Aventure</option>
+                                                <option value="Course">Course</option>
+                                                <option value="Gestion">Gestion</option>
+                                                <option value="Combat">Combat</option>
+                                                <option value="Simulation">Simulation</option>
+                                                <option value="Plateforme">Plateforme</option>
+                                            </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color: white; font-size: 0.8vw;" align="right">
+                                    Sexe 
+                                </td>
+                                <td>
+                                            <span style="
+                                            margin-left: 15%;
+                                            font-size: 0.8vw;
+                                            -webkit-appearance: none;
+                                            border: 1px solid rgba( 0, 0, 0, 0);
+                                            color: rgba(0,0,0,0.4);
+                                            cursor: default;
+                                            font-family: bello;
+                                            ">
+                                                <?php echo $_SESSION['sexualite'] ?>
 
-            ?>
-            <td>
-                        <select name="age" id="age">
-                            <option value="<?php echo $_SESSION['age']; ?>"><?php echo $_SESSION['age']; ?> <?php echo $ageAn ?></option>
-                            <option value="1">1 an</option>
-                            <option value="2">2 ans</option>
-                            <option value="3">3 ans</option>
-                            <option value="4">4 ans</option>
-                            <option value="5">5 ans</option>
-                            <option value="6">6 ans</option>
-                            <option value="7">7 ans</option>
-                            <option value="8">8 ans</option>
-                            <option value="9">9 ans</option>
-                            <option value="10">10 ans</option>
-                            <option value="11">11 ans</option>
-                            <option value="12">12 ans</option>
-                            <option value="13">13 ans</option>
-                            <option value="14">14 ans</option>
-                            <option value="15">15 ans</option>
-                            <option value="16">16 ans</option>
-                            <option value="17">17 ans</option>
-                            <option value="18">18 ans</option>
-                            <option value="19">19 ans</option>
-                            <option value="20">20 ans</option>
-                            <option value="21">21 ans</option>
-                            <option value="22">22 ans</option>
-                            <option value="23">23 ans</option>
-                            <option value="24">24 ans</option>
-                            <option value="25">25 ans</option>
-                            <option value="26">26 ans</option>
-                            <option value="27">27 ans</option>
-                            <option value="28">28 ans</option>
-                            <option value="29">29 ans</option>
-                            <option value="30">30 ans</option>
-                            <option value="31">31 ans</option>
-                            <option value="32">32 ans</option>
-                            <option value="34">33 ans</option>
-                            <option value="35">34 ans</option>
-                            <option value="36">35 ans</option>
-                            <option value="37">36 ans</option>
-                            <option value="38">37 ans</option>
-                            <option value="39">38 ans</option>
-                            <option value="40">39 ans</option>
-                            <option value="41">40 ans</option>
-                            <option value="42">41 ans</option>
-                            <option value="43">42 ans</option>
-                            <option value="44">43 ans</option>
-                            <option value="45">44 ans</option>
-                            <option value="46">45 ans</option>
-                            <option value="47">46 ans</option>
-                            <option value="48">47 ans</option>
-                            <option value="49">48 ans</option>
-                            <option value="50">49 ans</option>
-                            <option value="51">50 ans</option>
-                            <option value="52">51 ans</option>
-                            <option value="53">52 ans</option>
-                            <option value="54">53 ans</option>
-                            <option value="55">54 ans</option>
-                            <option value="56">55 ans</option>
-                            <option value="57">56 ans</option>
-                            <option value="58">57 ans</option>
-                            <option value="59">58 ans</option>
-                            <option value="60">59 ans</option>
-                            <option value="61">60 ans</option>
-                            <option value="62">61 ans</option>
-                            <option value="63">62 ans</option>
-                            <option value="64">63 ans</option>
-                            <option value="65">64 ans</option>
-                            <option value="66">65 ans</option>
-                            <option value="67">66 ans</option>
-                            <option value="68">67 ans</option>
-                            <option value="69">68 ans</option>
-                            <option value="70">69 ans</option>
-                            <option value="71">70 ans</option>
-                            <option value="72">71 ans</option>
-                            <option value="73">72 ans</option>
-                            <option value="74">73 ans</option>
-                            <option value="75">74 ans</option>
-                            <option value="76">75 ans</option>
-                            <option value="77">76 ans</option>
-                            <option value="78">77 ans</option>
-                            <option value="79">78 ans</option>
-                            <option value="80">79 ans</option>
-                            <option value="81">80 ans</option>
-                            <option value="82">81 ans</option>
-                            <option value="83">82 ans</option>
-                            <option value="84">83 ans</option>
-                            <option value="85">84 ans</option>
-                            <option value="86">85 ans</option>
-                            <option value="87">86 ans</option>
-                            <option value="88">87 ans</option>
-                            <option value="89">88 ans</option>
-                            <option value="89">89 ans</option>
-                            <option value="90">90 ans</option>
-                            <option value="91">91 ans</option>
-                            <option value="92">92 ans</option>
-                            <option value="93">93 ans</option>
-                            <option value="94">94 ans</option>
-                            <option value="95">95 ans</option>
-                            <option value="96">96 ans</option>
-                            <option value="97">97 ans</option>
-                            <option value="98">98 ans</option>
-                            <option value="99">99 ans</option>
-                        </select>
-                    </td>
-        </tr>
-        <td></td>
-        <td align="center"><br>
-            <input type="submit" name="edition" value="Modifier">
-        </td>
-        <tr>
-                <td></td>
-                <td>
-                    <p style="color: red;"><?php if(isset($error)){ echo $error; } ?></p>
-                </td>
-        </tr>
-    </table>
+                                            </span>
+                                        </td>
+                            </tr>
+                            <tr>
+                                <td style="color: white; font-size: 0.8vw;" align="right">
+                                    Date de naissance 
+                                </td>
+                                <td>
+                                    <?php 
+                                        $requete_date = $bdd -> prepare('SELECT * FROM membres WHERE id = ?');
+                                        $requete_date -> execute(array($_SESSION['id']));
+                                        $date_naissance = $requete_date -> fetch();
+
+                                        $naissance = new DateTime($date_naissance['date_naissance']);
+                                        $naissance = $naissance -> format('d/m/Y');
+
+                                        echo '<span style="
+                                        color: white;
+                                        font-family: bello; 
+                                        font-size: 0.7vw;
+                                        margin-left: 15%;
+                                        cursor: default;
+                                        color: rgba(0,0,0,0.6);
+                                        ">'.$naissance.'</span>';
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr style="color: white;">
+                                    <td align="right" style="font-size: 0.8vw;">Bio</td>
+                                    <td>
+                                    <?php 
+                                        
+                                        $requete_bio = $bdd -> prepare('SELECT * FROM membres WHERE id = ?');
+                                        $requete_bio -> execute(array($_SESSION['id']));
+                                        $bio = $requete_bio -> fetch();
+
+                                    ?>
+                                            <textarea style="
+                                                border: 1px solid rgba(0,0,0,0);
+                                                resize: none;
+                                                color: white;
+                                                font-size: 0.7vw;
+                                                width: 10vw;
+                                                height: 2vw;
+                                                background-color: rgba(0,0,0,0);
+                                                margin-left: 15%;
+                                                "
+                                                name="bio"
+                                                ><?php echo $bio['bio'];;?>
+                                            </textarea>
+                                    </td>
+                            </tr>
+                            <td></td>
+                            <td><br>
+                                <input type="submit" style="
+                                width: 5vw;
+                                border: 1px solid rgba(0,0,0,0.5);
+                                background-color: rgba(0,0,0,0.3);
+                                color: white;
+                                font-size: 0.8vw;
+                                border-radius: 0.3vw 0.3vw 0.3vw 0.3vw;
+                                cursor: pointer;
+                                margin-left: 13%;
+                                
+                                " name="edition" value="Modifier">
+                            </td>
+                            </tr>
+                            </tr>
+                            <tr>
+                                    <td></td>
+                                    <td>
+                                        <p style="color: red;"><?php if(isset($error)){ echo $error; } ?></p>
+                                    </td>
+                            </tr>
+                        </table>
+    </div>
+</div>
 </form>
 </body>
 </html>

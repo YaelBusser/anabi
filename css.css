@@ -8,16 +8,65 @@
          url('fonts/Amiko-Bold-webfont.svg#amikobold') format('svg');
     font-weight: normal;
     font-style: normal;
+}
+@font-face {
+    font-family: 'a';
+    src: url('fonts/Aaargh-webfont.eot');
+    src: url('fonts/Aaargh-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Aaargh-webfont.woff2') format('woff2'),
+         url('fonts/Aaargh-webfont.woff') format('woff'),
+         url('fonts/Aaargh-webfont.ttf') format('truetype'),
+         url('fonts/Aaargh-webfont.svg#aaarghnormal') format('svg');
+    font-weight: normal;
+    font-style: normal;
 
 }
-h1, p, tr
-{
-    font-family: amikobold;
+@font-face {
+    font-family: 'amiko';
+    src: url('fonts/Amiko-Regular-webfont.eot');
+    src: url('fonts/Amiko-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Amiko-Regular-webfont.woff2') format('woff2'),
+         url('fonts/Amiko-Regular-webfont.woff') format('woff'),
+         url('fonts/Amiko-Regular-webfont.ttf') format('truetype'),
+         url('fonts/Amiko-Regular-webfont.svg#amikoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
+@font-face {
+    font-family: 'bello';
+    src: url('fonts/Bellota-BoldItalic-webfont.eot');
+    src: url('fonts/Bellota-BoldItalic-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/Bellota-BoldItalic-webfont.woff2') format('woff2'),
+         url('fonts/Bellota-BoldItalic-webfont.woff') format('woff'),
+         url('fonts/Bellota-BoldItalic-webfont.ttf') format('truetype'),
+         url('fonts/Bellota-BoldItalic-webfont.svg#bellotabold_italic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'whitney';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Whitney-Semibold Regular'), url('fonts/whitneysemibold.woff') format('woff');
+    }
 body
 {
     left: 0;
     top: 0;
+    background-color: white;
+    overflow-x: hidden;
+}
+h1, p, tr
+{
+    font-family: amikobold;
+    color: white;
+}
+.black
+{
+    color: black;
 }
 .centre
 {
@@ -36,9 +85,12 @@ body
 {
     font-size: 0.45vw;
 }
-.nabi
+.purple
 {
     color: #9b59d9;
+}
+.nabi
+{
     font-size: 2.3vw;
 }
 .sizeXP
@@ -51,10 +103,9 @@ h1
 }
 .bandeHaut
 {
-    border: 0.2vw solid rgba(105, 75, 139, 1);
-    border-radius: 1vw 1vw 1vw 1vw;
-    width: 75%;
+    width: 100%;
     margin: auto;
+    z-index: 5;
 }
 a
 {
@@ -76,25 +127,18 @@ a
 .h1Inscription
 {
     margin-top: 3vw;
-    margin-left: 45%;
-    border: 0.1vw solid black;
-    width: 10.5vw;
-    font-size: 2    vw;
+    margin-left: 5vw;
+    font-size: 2vw;
 }
 .td
 {
-    color: black;
     animation-name: td;
     animation-iteration-count: infinite;
     animation-duration: 2.4s;
 }
 @keyframes td
 {
-
-
-    50%{color: grey}
-
-
+    50%{color: rgb(177, 104, 196)}
 }
 
 nav li
@@ -122,17 +166,34 @@ ul
 {
     list-style-type: none;
 }
-::-webkit-scrollbar 
+#scroll::-webkit-scrollbar 
 {
-    width: 0.8vw;
+    width: 0.5vw;
 }
-::-webkit-scrollbar-thumb
+#scroll::-webkit-scrollbar-thumb
 {
-    border-radius: 0.5vw 0.5vw 0.5vw 0.5vw;
-    background-color: rgba(105, 75, 139, 1);
+    border-radius: 0vw 1vw 0vw 0vw;
+    background-color: rgba(0,0,0,0.5);
+    border: 1px solid black;
 }
-::-webkit-scrollbar-track
+#scroll::-webkit-scrollbar-track
 {
-    background-color: rgba(105, 75, 139, 0.5);
-    border-radius: 0.5vw 0.5vw 0.5vw 0.5vw;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 0vw 1vw 0vw 0vw;
+}
+
+.colorNabi
+{
+    color: black; 
+}
+.connexion
+{
+    width: 25vw;
+    margin-top: 5vw;
+    margin-left: 35vw;
+    border: 0.01vw solid rgba(166, 166, 166, 0.3);
+}
+.pseudoC:active
+{
+    border: 1px solid rgba(102, 0, 255, 1);
 }

@@ -1,32 +1,47 @@
 <?php
     session_start();
                 include('bdd.php');
-                        $requete = $bdd -> prepare('SELECT * FROM chat WHERE pseudo1 = ? AND pseudo2 = ? OR pseudo1 = ? AND pseudo2 = ? ORDER BY id DESC LIMIT 0, 10');
+                        $requete = $bdd -> prepare('SELECT * FROM chat WHERE pseudo1 = ? AND pseudo2 = ? OR pseudo1 = ? AND pseudo2 = ? ORDER BY id DESC LIMIT 0, 20');
                         $requete -> execute(array($_SESSION['pseudo1Get'], $_SESSION['pseudo2Get'], $_SESSION['pseudo2Get'], $_SESSION['pseudo1Get']));
                         $requete = $requete -> fetchAll();
                         $requete = array_reverse($requete);
                         foreach($requete as $chat)
                         {
-                            if($chat['pseudo1'] == $_SESSION['pseudo'])
-                            {
-                                    $margin = 'margin-left: 13vw;';
-                                    $margin_date = 'margin-left: 23vw;';
-                            }
-                            else
-                            {
-                                $margin = 'margin-left: 0.45vw;';
-                                $margin_date = 'margin-left: 1vw;';
-                            }
+                            $requete_membre = $bdd -> prepare('SELECT * FROM membres WHERE pseudo = ?');
+                            $requete_membre -> execute(array($chat['pseudo1']));
+                            $membre = $requete_membre -> fetch();
+
                             $dateA = new DateTime($chat['dateA']);
                             $dateAA = $dateA -> format('d/m/Y');
-                            echo '<p style="font-size: 0.5vw; color: rgba(0,0,0,0.5);'.$margin_date.'"><i>Le '.$dateAA.' à '.$chat['dateH'].'</i><p style="'.$margin.'
-                            background-color: #4d4d4d;
-                            width: 16vw;
-                            color: white;
-                            font-size: 1vw;
-                            padding-left: 0.5vw;
-                            padding-top: 0.1vw;
-                            border-radius: 1vw 1vw 1vw 1vw;
-                            ">'.htmlspecialchars($chat['msg']).'</p>';
+                            echo '
+                    <div style="border-top: 1px solid rgba(0,0,0,0.1); width: 50vw; background-color: rgba(0,0,0,0.5)"> 
+                        <table>   
+                                    <tr>
+                                        <td>
+                                           <img src="avatars/'.$membre['avatar'].'" style="
+                                                width: 2vw;
+                                                height: 2vw;
+                                                border-radius: 50%;
+                                            ">
+                                        </td>
+                                        
+                                        <td>
+                                            <span style=" color: white; font-size: 1vw; font-family: whitney;">'.$chat['pseudo1'].'</span>
+                                            <span style="font-size: 0.5vw; color: #bf80ff;">Le '.$dateAA.' à '.$chat['dateH'].'</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            
+                                        </td>
+                                        
+                                        <td>
+                                            <span style="width: 16vw; color: rgba(255,255,255,0.7); font-size: 0.vw; font-family: arial;">'.htmlspecialchars($chat['msg']).'</span>
+                                        </td>
+                                    </tr>
+                        </table>
+                    </div>
+                    ';
                         }
                     ?>
